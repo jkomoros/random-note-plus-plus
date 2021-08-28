@@ -1,21 +1,26 @@
 const obsidian = require('obsidian');
 
+const DEFAULT_SETTINGS = {
+	folder: 'daily'
+}
+
 class RandomInFolderPlugin extends obsidian.Plugin {
 
 	async onload() {
-		console.log('loading plugin');
+
+		await this.loadSettings();
 
 		this.addCommand({
-			id: 'hello-world',
-			name: 'Hello world',
+			id: 'random-note-in-folder',
+			name: 'Random Note in Folder',
 		callback: () => {
-			console.log('Simple Callback');
+			console.log(this.settings);
 		}
 		});
 	}
 
-	onunload() {
-		console.log('unloading plugin');
+	async loadSettings() {
+		this.settings = Object.assign({}, DEFAULT_SETTINGS);
 	}
 }
 
