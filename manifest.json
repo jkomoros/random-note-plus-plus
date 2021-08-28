@@ -1,0 +1,10 @@
+{
+	"id": "random-in-folder",
+	"name": "Random in folder",
+	"version": "0.1",
+	"minAppVersion": "0.9.12",
+	"description": "Like Random Note but limited to only files in a given folder",
+	"author": "Alex Komoroske",
+	"authorUrl": "https://github.com/jkomoros",
+	"isDesktopOnly": false
+}
