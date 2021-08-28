@@ -29,6 +29,9 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 			throw new Error('Not a folder');
 		}
 		const fileChildren = folder.children.filter(item => !item.children);
+		if (fileChildren.length == 0) {
+			throw new Error('No direct children of that folder');
+		}
 		const randomChild = fileChildren[Math.floor(Math.random()*fileChildren.length)]
 		this.app.workspace.activeLeaf.openFile(randomChild);
 	}
