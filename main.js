@@ -14,9 +14,13 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 			id: 'random-note-in-folder',
 			name: 'Random Note in Folder',
 		callback: () => {
-			console.log(this.settings);
+			this.action();
 		}
 		});
+	}
+
+	action() {
+		console.log(this.settings);
 	}
 
 	async loadSettings() {
