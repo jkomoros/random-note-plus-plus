@@ -28,8 +28,9 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 		if (!folder.children) {
 			throw new Error('Not a folder');
 		}
-		//TODO: do something with children.
-		console.log(folder.children);
+		const fileChildren = folder.children.filter(item => !item.children);
+		console.log(fileChildren);
+
 	}
 
 	async loadSettings() {
