@@ -1,4 +1,4 @@
-# obisidian-random-in-folder
+# Random Note++
 A simple plugin for Obsidian.md that is like Random Note but will only pick notes in a given folder
 
 ## Installing
