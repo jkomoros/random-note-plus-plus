@@ -3,7 +3,7 @@
 	"name": "Random note++",
 	"version": "0.1",
 	"minAppVersion": "0.9.12",
-	"description": "Like the built-in Random note, but also has a command to select a random file in a configured folder",
+	"description": "Like the built-in Random note, but also has a command to select a random file in a configured folder or current folder",
 	"author": "Alex Komoroske",
 	"authorUrl": "https://github.com/jkomoros",
 	"isDesktopOnly": false

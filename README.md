@@ -1,5 +1,5 @@
 # Random Note++
-A simple plugin for Obsidian.md that is like Random Note but will only pick notes in a given folder
+A simple plugin for Obsidian.md that is like Random Note but also has commands to pick a random file in a configured folder, or in the current folder.
 
 ## Installing
 
