@@ -42,7 +42,14 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 		this.addCommand({
 			id: 'random-note-in-current-folder',
 			name: CURRENT_FOLDER_COMMAND_NAME,
-			callback: () => this.currentFolderAction(),
+			checkCallback: (checking) => {
+				if (checking) {
+					if (this.folderNameOfActiveLeaf()) return true;
+					return false;
+				}
+				this.currentFolderAction();
+				return true;
+			},
 		});
 	}
 
