@@ -1,7 +1,7 @@
 const obsidian = require('obsidian');
 
 const DEFAULT_SETTINGS = {
-	folder: 'daily'
+	folder: '/'
 }
 
 class RandomInFolderPlugin extends obsidian.Plugin {
@@ -61,7 +61,7 @@ class RandomInFolderSettingsTab extends obsidian.PluginSettingTab {
 
 		new obsidian.Setting(containerEl)
 			.setName('Folder')
-			.setDesc('The folder you want to show random notes from')
+			.setDesc('The folder you want to show random notes from. Leave as \'/\' for top-level notes.')
 			.addText(text => text
 				.setValue(this.plugin.settings.folder)
 				.onChange(async (value) => {
