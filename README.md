@@ -9,4 +9,4 @@ This plugin adds three commands, which you can run from the command pane or by a
 - **Open random note in current folder** - (Default: ⌘⇧R) Opens a random note that is in the same folder as the file pane that is currently active. Not available unless the active pane is a file.
 - **Open random note in configured folder** - (Default: ⌘⎇R) Opens a random note that is in the folder that is preconfigured in settings. Open settings and put in a foldername. For example, you could configure `daily` if your daily notes are in that folder and you want to randomly select a daily note.
 
-The plugin also installs an icon in the ribbon. Click it to open a random note. Press Ctrl/Cmd and click for a random note in the pre-configured folder. Press Alt and click for a random note in the current folder.
+The plugin also installs an icon in the ribbon. Click it to open a random note. Press Alt and click for a random note in the pre-configured folder. Press Shift and click for a random note in the current folder.
