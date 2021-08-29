@@ -17,6 +17,12 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 			name: 'Open random note in configured folder',
 			callback: () => this.navigateToRandomNoteInFolderNamed(this.settings.folder),
 		});
+
+		this.addCommand({
+			id: 'random-note',
+			name: 'Open random note',
+			callback: () => this.navigateToRandomNoteInFolderNamed('/'),
+		})
 	}
 
 	navigateToRandomNoteInFolderNamed(folderName) {
