@@ -55,8 +55,6 @@ class RandomInFolderSettingsTab extends obsidian.PluginSettingTab {
 
 		containerEl.empty();
 
-		containerEl.createEl('h2', {text: 'Random in Folder Settings'});
-
 		new obsidian.Setting(containerEl)
 			.setName('Folder')
 			.setDesc('The folder you want to show random notes from. Leave as \'/\' for top-level notes.')
