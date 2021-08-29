@@ -28,7 +28,7 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 		this.addSettingTab(new RandomInFolderSettingsTab(this.app, this));
 
 		this.addCommand({
-			id: 'random-note-in-folder',
+			id: 'random-note-in-configured-folder',
 			name: CONFIGURED_FOLDER_COMMAND_NAME,
 			callback: () => this.configuredFolderAction(),
 		});
