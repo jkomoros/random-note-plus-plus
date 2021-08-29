@@ -21,18 +21,35 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 
 	action() {
 		const folder = this.app.vault.getAbstractFileByPath(this.settings.folder);
+		const randomChild = this.randomFileInFolder(folder);
+		this.app.workspace.activeLeaf.openFile(randomChild);
+	}
+
+	descendantFilesInFolder(folder) {
 		if (!folder) {
 			throw new Error('No such folder');
 		}
 		if (!folder.children) {
 			throw new Error('Not a folder');
 		}
-		const fileChildren = folder.children.filter(item => !item.children);
-		if (fileChildren.length == 0) {
-			throw new Error('No direct children of that folder');
+		const files = [];
+		for (const item of folder.children) {
+			if (item.children) {
+				//Recurse into the sub-directory
+				files.push(...this.descendantFilesInFolder(item));
+			} else {
+				files.push(item);
+			}
 		}
-		const randomChild = fileChildren[Math.floor(Math.random()*fileChildren.length)]
-		this.app.workspace.activeLeaf.openFile(randomChild);
+		return files;
+	}
+
+	randomFileInFolder(folder) {
+		const fileChildren = this.descendantFilesInFolder(folder);
+		if (fileChildren.length == 0) {
+			throw new Error('No files in that folder');
+		}
+		return fileChildren[Math.floor(Math.random()*fileChildren.length)]
 	}
 
 	async loadSettings() {
