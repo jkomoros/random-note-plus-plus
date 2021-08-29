@@ -7,7 +7,7 @@ const DEFAULT_SETTINGS = {
 const MAIN_COMMAND_NAME = 'Open random note';
 const CONFIGURED_FOLDER_COMMAND_NAME = MAIN_COMMAND_NAME + ' in configured folder';
 const CURRENT_FOLDER_COMMAND_NAME = MAIN_COMMAND_NAME + ' in current folder';
-const RIBBON_COMMAND_STRING = MAIN_COMMAND_NAME + ' (⌘ to restrict to configured folder, or ⎇ to restrict to current folder)'
+const RIBBON_COMMAND_STRING = MAIN_COMMAND_NAME + ' (⌘ to restrict to configured folder, or ⎇ to restrict to current folder)';
 
 class RandomInFolderPlugin extends obsidian.Plugin {
 
@@ -44,7 +44,7 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 			name: CURRENT_FOLDER_COMMAND_NAME,
 			checkCallback: (checking) => {
 				if (checking) {
-					if (this.folderNameOfActiveLeaf()) return true;
+					if (this.folderOfActiveLeaf()) return true;
 					return false;
 				}
 				this.currentFolderAction();
@@ -54,47 +54,45 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 	}
 
 	mainAction() {
-		this.navigateToRandomNoteInFolderNamed('/');
+		const folder = this.app.vault.getAbstractFileByPath('/');
+		this.navigateToRandomNoteInFolder(folder);
 	}
 
 	configuredFolderAction() {
-		this.navigateToRandomNoteInFolderNamed(this.settings.folder || '/');
+		const folder = this.app.vault.getAbstractFileByPath(this.settings.folder || '/');
+		this.navigateToRandomNoteInFolder(folder);
 	}
 
 	currentFolderAction() {
-		const folderName = this.folderNameOfActiveLeaf();
-		if (!folderName) {
-			new Notice('Couldn\'t do that action.');
-			return;
-		}
-		this.navigateToRandomNoteInFolderNamed(folderName);
+		const folder = this.folderOfActiveLeaf();
+		this.navigateToRandomNoteInFolder(folder);
 	}
 
-	folderNameOfActiveLeaf() {
+	folderOfActiveLeaf() {
 		if (!this.app.workspace.activeLeaf) {
-			return '';
+			return null;
 		}
 		const activeLeaf = this.app.workspace.activeLeaf;
 		if (!activeLeaf.view.file) {
-			return '';
+			return null;
 		}
-		const parentFolder = activeLeaf.view.file.parent;
-		return parentFolder.path;
+		return activeLeaf.view.file.parent;
 	}
 
-	navigateToRandomNoteInFolderNamed(folderName) {
-		const folder = this.app.vault.getAbstractFileByPath(folderName);
+	navigateToRandomNoteInFolder(folder) {
+		if (!folder || !folder.children) {
+			new Notice('Invalid folder.');
+			return;
+		}
 		const randomChild = this.randomFileInFolder(folder);
+		if (!randomChild) {
+			new Notice('No files in that folder.');
+			return;
+		}
 		this.app.workspace.activeLeaf.openFile(randomChild);
 	}
 
 	descendantFilesInFolder(folder) {
-		if (!folder) {
-			throw new Error('No such folder');
-		}
-		if (!folder.children) {
-			throw new Error('Not a folder');
-		}
 		const files = [];
 		for (const item of folder.children) {
 			if (item.children) {
@@ -110,7 +108,7 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 	randomFileInFolder(folder) {
 		const fileChildren = this.descendantFilesInFolder(folder);
 		if (fileChildren.length == 0) {
-			throw new Error('No files in that folder');
+			return null;
 		}
 		return fileChildren[Math.floor(Math.random()*fileChildren.length)]
 	}
