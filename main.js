@@ -4,6 +4,9 @@ const DEFAULT_SETTINGS = {
 	folder: ''
 }
 
+const MAIN_COMMAND_NAME = 'Open random note';
+const FOLDER_COMMAND_NAME = MAIN_COMMAND_NAME + ' in configured folder';
+
 class RandomInFolderPlugin extends obsidian.Plugin {
 
 	async onload() {
@@ -14,15 +17,19 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 
 		this.addCommand({
 			id: 'random-note-in-folder',
-			name: 'Open random note in configured folder',
+			name: FOLDER_COMMAND_NAME,
 			callback: () => this.navigateToRandomNoteInFolderNamed(this.settings.folder),
 		});
 
 		this.addCommand({
 			id: 'random-note',
-			name: 'Open random note',
-			callback: () => this.navigateToRandomNoteInFolderNamed('/'),
+			name: MAIN_COMMAND_NAME,
+			callback: () => this.mainAction(),
 		})
+	}
+
+	mainAction() {
+		this.navigateToRandomNoteInFolderNamed('/');
 	}
 
 	navigateToRandomNoteInFolderNamed(folderName) {
@@ -80,7 +87,7 @@ class RandomInFolderSettingsTab extends obsidian.PluginSettingTab {
 
 		new obsidian.Setting(containerEl)
 			.setName('Configured folder')
-			.setDesc('The folder to use for the \'Open random note in configured folder\' option')
+			.setDesc('The folder to use for the \'' + FOLDER_COMMAND_NAME +'\' option')
 			.addText(text => text
 				.setValue(this.plugin.settings.folder)
 				.setPlaceholder('Example: foldername')
