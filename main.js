@@ -15,12 +15,12 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 		this.addCommand({
 			id: 'random-note-in-folder',
 			name: 'Open random note in configured folder',
-			callback: () => this.action(),
+			callback: () => this.navigateToRandomNoteInFolderNamed(this.settings.folder),
 		});
 	}
 
-	action() {
-		const folder = this.app.vault.getAbstractFileByPath(this.settings.folder);
+	navigateToRandomNoteInFolderNamed(folderName) {
+		const folder = this.app.vault.getAbstractFileByPath(folderName);
 		const randomChild = this.randomFileInFolder(folder);
 		this.app.workspace.activeLeaf.openFile(randomChild);
 	}
