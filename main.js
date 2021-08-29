@@ -7,7 +7,7 @@ const DEFAULT_SETTINGS = {
 const MAIN_COMMAND_NAME = 'Open random note';
 const CONFIGURED_FOLDER_COMMAND_NAME = MAIN_COMMAND_NAME + ' in configured folder';
 const CURRENT_FOLDER_COMMAND_NAME = MAIN_COMMAND_NAME + ' in current folder';
-const RIBBON_COMMAND_STRING = MAIN_COMMAND_NAME + ' (⌘ to restrict to configured folder, or ⎇ to restrict to current folder)';
+const RIBBON_COMMAND_STRING = MAIN_COMMAND_NAME + ' (⌘ to restrict to current folder, or ⎇ to restrict to configured folder)';
 
 class RandomInFolderPlugin extends obsidian.Plugin {
 
@@ -17,9 +17,9 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 
 		this.addRibbonIcon('dice', RIBBON_COMMAND_STRING, (evt) => {
 			if (evt.metaKey || evt.ctrlKey) {
-				this.configuredFolderAction();
-			} else if(evt.altKey) {
 				this.currentFolderAction();
+			} else if(evt.altKey) {
+				this.configuredFolderAction();
 			} else {
 				this.mainAction();
 			}
