@@ -31,12 +31,24 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 			id: 'random-note-in-configured-folder',
 			name: CONFIGURED_FOLDER_COMMAND_NAME,
 			callback: () => this.configuredFolderAction(),
+			hotkeys: [
+				{
+					modifiers:['Mod', 'Alt'],
+					key: 'r',
+				}
+			]
 		});
 
 		this.addCommand({
 			id: 'random-note',
 			name: MAIN_COMMAND_NAME,
 			callback: () => this.mainAction(),
+			hotkeys: [
+				{
+					modifiers:['Mod'],
+					key: 'r',
+				}
+			]
 		})
 
 		this.addCommand({
@@ -50,6 +62,12 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 				this.currentFolderAction();
 				return true;
 			},
+			hotkeys: [
+				{
+					modifiers:['Mod', 'Shift'],
+					key: 'r',
+				}
+			]
 		});
 	}
 
