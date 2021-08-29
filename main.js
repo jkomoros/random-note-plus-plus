@@ -20,7 +20,7 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 		this.addCommand({
 			id: 'random-note-in-folder',
 			name: FOLDER_COMMAND_NAME,
-			callback: () => this.navigateToRandomNoteInFolderNamed(this.settings.folder),
+			callback: () => this.folderAction(),
 		});
 
 		this.addCommand({
@@ -32,6 +32,10 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 
 	mainAction() {
 		this.navigateToRandomNoteInFolderNamed('/');
+	}
+
+	folderAction() {
+		this.navigateToRandomNoteInFolderNamed(this.settings.folder);
 	}
 
 	navigateToRandomNoteInFolderNamed(folderName) {
