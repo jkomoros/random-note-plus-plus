@@ -5,8 +5,9 @@ const DEFAULT_SETTINGS = {
 }
 
 const MAIN_COMMAND_NAME = 'Open random note';
-const FOLDER_COMMAND_NAME = MAIN_COMMAND_NAME + ' in configured folder';
-const RIBBON_COMMAND_STRING = MAIN_COMMAND_NAME + ' (⌘ to restrict to configured folder)'
+const CONFIGURED_FOLDER_COMMAND_NAME = MAIN_COMMAND_NAME + ' in configured folder';
+const CURRENT_FOLDER_COMMAND_NAME = MAIN_COMMAND_NAME + ' in current folder';
+const RIBBON_COMMAND_STRING = MAIN_COMMAND_NAME + ' (⌘ to restrict to configured folder, or ⎇ to restrict to current folder)'
 
 class RandomInFolderPlugin extends obsidian.Plugin {
 
@@ -16,7 +17,9 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 
 		this.addRibbonIcon('dice', RIBBON_COMMAND_STRING, (evt) => {
 			if (evt.metaKey || evt.ctrlKey) {
-				this.folderAction();
+				this.configuredFolderAction();
+			} else if(evt.altKey) {
+				this.currentFolderAction();
 			} else {
 				this.mainAction();
 			}
@@ -26,8 +29,8 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 
 		this.addCommand({
 			id: 'random-note-in-folder',
-			name: FOLDER_COMMAND_NAME,
-			callback: () => this.folderAction(),
+			name: CONFIGURED_FOLDER_COMMAND_NAME,
+			callback: () => this.configuredFolderAction(),
 		});
 
 		this.addCommand({
@@ -35,14 +38,41 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 			name: MAIN_COMMAND_NAME,
 			callback: () => this.mainAction(),
 		})
+
+		this.addCommand({
+			id: 'random-note-in-current-folder',
+			name: CURRENT_FOLDER_COMMAND_NAME,
+			callback: () => this.currentFolderAction(),
+		});
 	}
 
 	mainAction() {
 		this.navigateToRandomNoteInFolderNamed('/');
 	}
 
-	folderAction() {
+	configuredFolderAction() {
 		this.navigateToRandomNoteInFolderNamed(this.settings.folder || '/');
+	}
+
+	currentFolderAction() {
+		try {
+			this.doCurrentFolderAction();
+		} catch(err) {
+			new Notice('Couldn\'t do that action.');
+			console.log(err);
+		}
+	}
+
+	doCurrentFolderAction() {
+		if (!this.app.workspace.activeLeaf) {
+			throw new Error('No current activeLeaf');
+		}
+		const activeLeaf = this.app.workspace.activeLeaf;
+		if (!activeLeaf.view.file) {
+			throw new Error('Active leaf isn\'t of type File');
+		}
+		const parentFolder = activeLeaf.view.file.parent;
+		this.navigateToRandomNoteInFolderNamed(parentFolder.path);
 	}
 
 	navigateToRandomNoteInFolderNamed(folderName) {
@@ -100,7 +130,7 @@ class RandomInFolderSettingsTab extends obsidian.PluginSettingTab {
 
 		new obsidian.Setting(containerEl)
 			.setName('Configured folder')
-			.setDesc('The folder to use for the \'' + FOLDER_COMMAND_NAME +'\' option')
+			.setDesc('The folder to use for the \'' + CONFIGURED_FOLDER_COMMAND_NAME +'\' option')
 			.addText(text => text
 				.setValue(this.plugin.settings.folder)
 				.setPlaceholder('Example: foldername')
