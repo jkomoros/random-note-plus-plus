@@ -14,7 +14,7 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 
 		this.addCommand({
 			id: 'random-note-in-folder',
-			name: 'Random Note in Folder',
+			name: 'Open random note in configured folder',
 			callback: () => this.action(),
 		});
 	}

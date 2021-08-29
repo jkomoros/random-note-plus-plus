@@ -13,4 +13,4 @@ Restart Obsidian and go to Community Plugins and enable `Random in folder`.
 
 It defaults to the root folder. You can change it by going to `Random in folder` in Plugin Options section of settings, setting to, for example, `daily` to only select random notes in the `daily` folder.
 
-Go to Hotkeys and assign `Random in folder: Random Note in Folder` to a hotkey. (You can also trigger it via the command palette).
+Go to Hotkeys and assign `Random in folder: Open random note in configured folder` to a hotkey. (You can also trigger it via the command palette).
