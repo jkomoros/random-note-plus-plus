@@ -42,7 +42,7 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 	}
 
 	folderAction() {
-		this.navigateToRandomNoteInFolderNamed(this.settings.folder);
+		this.navigateToRandomNoteInFolderNamed(this.settings.folder || '/');
 	}
 
 	navigateToRandomNoteInFolderNamed(folderName) {
