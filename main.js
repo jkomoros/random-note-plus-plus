@@ -22,7 +22,6 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 	}
 
 	action() {
-		console.log('Running');
 		const folder = this.app.vault.getAbstractFileByPath(this.settings.folder);
 		if (!folder) {
 			throw new Error('No such folder');
