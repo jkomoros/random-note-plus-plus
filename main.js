@@ -13,6 +13,8 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 
 		await this.loadSettings();
 
+		this.addRibbonIcon('dice', MAIN_COMMAND_NAME, () => this.mainAction());
+
 		this.addSettingTab(new RandomInFolderSettingsTab(this.app, this));
 
 		this.addCommand({
