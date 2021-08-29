@@ -55,24 +55,24 @@ class RandomInFolderPlugin extends obsidian.Plugin {
 	}
 
 	currentFolderAction() {
-		try {
-			this.doCurrentFolderAction();
-		} catch(err) {
+		const folderName = this.folderNameOfActiveLeaf();
+		if (!folderName) {
 			new Notice('Couldn\'t do that action.');
-			console.log(err);
+			return;
 		}
+		this.navigateToRandomNoteInFolderNamed(folderName);
 	}
 
-	doCurrentFolderAction() {
+	folderNameOfActiveLeaf() {
 		if (!this.app.workspace.activeLeaf) {
-			throw new Error('No current activeLeaf');
+			return '';
 		}
 		const activeLeaf = this.app.workspace.activeLeaf;
 		if (!activeLeaf.view.file) {
-			throw new Error('Active leaf isn\'t of type File');
+			return '';
 		}
 		const parentFolder = activeLeaf.view.file.parent;
-		this.navigateToRandomNoteInFolderNamed(parentFolder.path);
+		return parentFolder.path;
 	}
 
 	navigateToRandomNoteInFolderNamed(folderName) {
